@@ -18,14 +18,14 @@ import com.codexasistemas.todoapp.api.dto.user.UserPostRequestDto;
 import com.codexasistemas.todoapp.api.dto.user.UserPostResponseDto;
 import com.codexasistemas.todoapp.api.dto.user.UserPutRequestDto;
 import com.codexasistemas.todoapp.api.dto.user.UserPutResponseDto;
-import com.codexasistemas.todoapp.api.service.UserService;
+import com.codexasistemas.todoapp.api.service.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @GetMapping("/findall")
     public ResponseEntity<List<UserGetResponseDto>> findAll() {
