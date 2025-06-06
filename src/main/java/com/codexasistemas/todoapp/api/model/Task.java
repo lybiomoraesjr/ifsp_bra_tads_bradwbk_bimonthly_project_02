@@ -23,6 +23,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,4 +49,5 @@ public class Task {
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags;
+    
 }

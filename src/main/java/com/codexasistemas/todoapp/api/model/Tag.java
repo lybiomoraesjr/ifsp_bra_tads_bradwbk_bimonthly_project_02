@@ -20,6 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tag {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,4 +29,5 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private List<Task> tasks;
+    
 }
