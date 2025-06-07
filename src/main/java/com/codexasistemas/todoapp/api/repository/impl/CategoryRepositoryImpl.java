@@ -3,10 +3,13 @@ package com.codexasistemas.todoapp.api.repository.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.codexasistemas.todoapp.api.model.Category;
 import com.codexasistemas.todoapp.api.repository.interfaces.CategoryRepository;
 import com.codexasistemas.todoapp.api.repository.jpa.CategoryJpaRepository;
 
+@Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
 
     private final CategoryJpaRepository jpa;

@@ -3,10 +3,13 @@ package com.codexasistemas.todoapp.api.repository.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.codexasistemas.todoapp.api.model.Tag;
 import com.codexasistemas.todoapp.api.repository.interfaces.TagRepository;
 import com.codexasistemas.todoapp.api.repository.jpa.TagJpaRepository;
 
+@Repository
 public class TagRepositoryImpl implements TagRepository {
 
     private final TagJpaRepository jpa;

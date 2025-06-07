@@ -13,10 +13,10 @@ import com.codexasistemas.todoapp.api.dto.user.UserPutRequestDto;
 import com.codexasistemas.todoapp.api.dto.user.UserPutResponseDto;
 import com.codexasistemas.todoapp.api.model.User;
 import com.codexasistemas.todoapp.api.repository.interfaces.UserRepository;
-
+import com.codexasistemas.todoapp.api.service.interfaces.UserService;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
     
     @Autowired
     private UserRepository userRepository;
@@ -83,5 +83,14 @@ public class UserServiceImpl {
         userRepository.deleteById(id);
         return ResponseEntity.ok().build();
        
+    }
+
+    @Override
+    public User findByIdEntity(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID must be a positive number");
+        }
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }
