@@ -11,6 +11,7 @@ public interface CategoryService {
     List<CategoryResponseDto> findAll();
     Optional<CategoryResponseDto> findById(Long id);
     CategoryResponseDto create(CategoryRequestDto categoryRequest);
+    CategoryResponseDto update(Long id, CategoryRequestDto categoryRequest);
     CategoryResponseDto delete(Long id);
     Category findByIdEntity(Long id);
 } 

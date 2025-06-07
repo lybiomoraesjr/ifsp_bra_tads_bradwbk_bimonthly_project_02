@@ -61,4 +61,17 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found"));
     }
+
+    @Override
+    public CategoryResponseDto update(Long id, CategoryRequestDto categoryRequest) {
+        Category existingCategory = categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada: " + id));
+
+        User user = userService.findByIdEntity(categoryRequest.userId());
+        existingCategory.setName(categoryRequest.name());
+        existingCategory.setUser(user);
+
+        Category updatedCategory = categoryRepository.save(existingCategory);
+        return CategoryMapper.toResponseDto(updatedCategory);
+    }
 } 
