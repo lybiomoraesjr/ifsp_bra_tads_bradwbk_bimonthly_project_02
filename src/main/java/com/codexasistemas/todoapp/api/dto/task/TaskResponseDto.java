@@ -1,5 +1,6 @@
 package com.codexasistemas.todoapp.api.dto.task;
 
+import com.codexasistemas.todoapp.api.dto.location.LocationDto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,5 +13,6 @@ public record TaskResponseDto(
     String category,
     List<String> tags,
     LocalDateTime createdAt,
-    LocalDate dueDate
+    LocalDate dueDate,
+    LocationDto location
 ) {}

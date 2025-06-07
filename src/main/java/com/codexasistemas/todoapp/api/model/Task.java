@@ -43,6 +43,10 @@ public class Task {
     @JoinTable(name = "task_tag", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
+    private Location location;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -102,6 +106,13 @@ public class Task {
 
     public boolean isOwnedBy(User user) {
         return this.user != null && this.user.equals(user);
+    }
+
+    public void setLocation(Location location) {
+        if (location != null) {
+            location.validateCoordinates();
+        }
+        this.location = location;
     }
 
     @Override

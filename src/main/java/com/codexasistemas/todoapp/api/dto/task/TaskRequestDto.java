@@ -1,5 +1,6 @@
 package com.codexasistemas.todoapp.api.dto.task;
 
+import com.codexasistemas.todoapp.api.dto.location.LocationDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,7 +19,9 @@ public record TaskRequestDto(
 
         List<Long> tagIds,
 
-        LocalDate dueDate
+        LocalDate dueDate,
+
+        LocationDto location
 
 ) {
 }
