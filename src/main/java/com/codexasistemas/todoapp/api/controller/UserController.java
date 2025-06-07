@@ -21,33 +21,34 @@ import com.codexasistemas.todoapp.api.dto.user.UserPutResponseDto;
 import com.codexasistemas.todoapp.api.service.impl.UserServiceImpl;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping("/findall")
+    @GetMapping
     public ResponseEntity<List<UserGetResponseDto>> findAll() {
         return ResponseEntity.ok().body(userService.findAll());
     }
 
-    @GetMapping("/findbyid/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserGetResponseDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.findById(id));
     }
     
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<UserPostResponseDto> save(@RequestBody UserPostRequestDto user) {
         return ResponseEntity.ok().body(userService.save(user));
     }
     
-    @PutMapping("/update")
-    public ResponseEntity<UserPutResponseDto> update(@RequestBody UserPutRequestDto user) {
+    @PutMapping("/{id}")
+    public ResponseEntity<UserPutResponseDto> update(@PathVariable Long id, @RequestBody UserPutRequestDto user) {
+        user = new UserPutRequestDto(id, user.name(), user.email(), user.password());
         return ResponseEntity.ok().body(userService.update(user));
     }
 
-    @DeleteMapping("/deletebyid/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         return userService.deleteById(id);
     }
