@@ -53,9 +53,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskResponseDto create(TaskRequestDto taskRequest) {
         User user = userService.findByIdEntity(taskRequest.userId());
-        Category category = categoryService.findById(taskRequest.categoryId());
+        Category category = categoryService.findByIdEntity(taskRequest.categoryId());
         List<Tag> tags = taskRequest.tagIds() != null ? taskRequest.tagIds().stream()
-                .map(tagService::findById)
+                .map(tagService::findByIdEntity)
                 .collect(Collectors.toList()) : List.of();
 
         Task task = TaskMapper.toEntity(taskRequest, user, category, tags);
