@@ -42,4 +42,12 @@ public class TagController {
         TagResponseDto deletedTag = tagService.delete(id);
         return ResponseEntity.ok(deletedTag);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TagResponseDto> update(
+            @PathVariable Long id,
+            @Valid @RequestBody TagRequestDto tagRequest) {
+        TagResponseDto updatedTag = tagService.update(id, tagRequest);
+        return ResponseEntity.ok(updatedTag);
+    }
 } 

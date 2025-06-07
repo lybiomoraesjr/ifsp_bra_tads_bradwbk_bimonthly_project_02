@@ -55,4 +55,14 @@ public class TagServiceImpl implements TagService {
         return tagRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Tag not found"));
     }
+
+    @Override
+    public TagResponseDto update(Long id, TagRequestDto tagRequest) {
+        Tag existingTag = tagRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tag não encontrada: " + id));
+
+        existingTag.setName(tagRequest.name());
+        Tag updatedTag = tagRepository.save(existingTag);
+        return TagMapper.toResponseDto(updatedTag);
+    }
 } 

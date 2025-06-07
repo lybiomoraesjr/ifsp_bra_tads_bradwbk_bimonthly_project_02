@@ -11,6 +11,7 @@ public interface TagService {
     List<TagResponseDto> findAll();
     Optional<TagResponseDto> findById(Long id);
     TagResponseDto create(TagRequestDto tagRequest);
+    TagResponseDto update(Long id, TagRequestDto tagRequest);
     TagResponseDto delete(Long id);
     Tag findByIdEntity(Long id);
 } 
