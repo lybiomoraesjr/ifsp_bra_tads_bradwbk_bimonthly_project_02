@@ -64,9 +64,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void delete(Long id) {
+    public TaskResponseDto delete(Long id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada: " + id));
+        TaskResponseDto responseDto = TaskMapper.toResponseDto(task);
         taskRepository.deleteById(task.getId());
+        return responseDto;
     }
 }

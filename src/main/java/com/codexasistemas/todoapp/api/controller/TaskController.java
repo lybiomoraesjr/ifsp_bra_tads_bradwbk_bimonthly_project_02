@@ -40,8 +40,8 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        taskService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<TaskResponseDto> delete(@PathVariable Long id) {
+        TaskResponseDto deletedTask = taskService.delete(id);
+        return ResponseEntity.ok(deletedTask);
     }
 }
