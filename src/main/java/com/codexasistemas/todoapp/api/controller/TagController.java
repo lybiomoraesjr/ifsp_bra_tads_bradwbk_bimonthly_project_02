@@ -5,6 +5,7 @@ import com.codexasistemas.todoapp.api.dto.tag.TagResponseDto;
 import com.codexasistemas.todoapp.api.service.interfaces.TagService;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,8 @@ import java.util.List;
 @RequestMapping("/tags")
 public class TagController {
 
-    private final TagService tagService;
-
-    public TagController(TagService tagService) {
-        this.tagService = tagService;
-    }
+    @Autowired
+    private TagService tagService;
 
     @GetMapping
     public List<TagResponseDto> findAll() {

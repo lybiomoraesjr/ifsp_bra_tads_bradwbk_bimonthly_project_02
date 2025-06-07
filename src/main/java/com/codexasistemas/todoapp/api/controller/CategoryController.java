@@ -5,6 +5,7 @@ import com.codexasistemas.todoapp.api.dto.category.CategoryResponseDto;
 import com.codexasistemas.todoapp.api.service.interfaces.CategoryService;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,8 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public List<CategoryResponseDto> findAll() {
