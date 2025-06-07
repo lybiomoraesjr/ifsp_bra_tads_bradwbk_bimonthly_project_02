@@ -1,7 +1,17 @@
 package com.codexasistemas.todoapp.api.repository.interfaces;
 
-import com.codexasistemas.todoapp.api.model.Tag;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import java.util.Optional;
 
-public interface TagRepository extends JpaRepository<Tag, Long> {
+import com.codexasistemas.todoapp.api.model.Tag;
+
+public interface TagRepository {
+
+    public Tag save(Tag tag);
+
+    public Optional<Tag> findById(Long id);
+
+    public List<Tag> findAll();
+
+    public void deleteById(Long id);
 } 
