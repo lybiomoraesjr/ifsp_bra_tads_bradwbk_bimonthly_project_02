@@ -4,6 +4,7 @@ import com.codexasistemas.todoapp.api.dto.task.TaskRequestDto;
 import com.codexasistemas.todoapp.api.dto.task.TaskResponseDto;
 import com.codexasistemas.todoapp.api.mapper.TaskMapper;
 import com.codexasistemas.todoapp.api.model.Category;
+import com.codexasistemas.todoapp.api.model.Location;
 import com.codexasistemas.todoapp.api.model.Tag;
 import com.codexasistemas.todoapp.api.model.Task;
 import com.codexasistemas.todoapp.api.model.User;
@@ -27,13 +28,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private CategoryService categoryService;
-    
+
     @Autowired
     private TagService tagService;
 
@@ -70,5 +71,38 @@ public class TaskServiceImpl implements TaskService {
         TaskResponseDto responseDto = TaskMapper.toResponseDto(task);
         taskRepository.deleteById(task.getId());
         return responseDto;
+    }
+
+    @Override
+    public TaskResponseDto update(Long id, TaskRequestDto taskRequest) {
+        Task existingTask = taskRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada: " + id));
+
+        User user = userService.findByIdEntity(taskRequest.userId());
+        Category category = categoryService.findByIdEntity(taskRequest.categoryId());
+        List<Tag> tags = taskRequest.tagIds() != null ? taskRequest.tagIds().stream()
+                .map(tagService::findByIdEntity)
+                .collect(Collectors.toList()) : List.of();
+
+        existingTask.updateTitle(taskRequest.title());
+        existingTask.updateDescription(taskRequest.description());
+        existingTask.assignUser(user);
+        existingTask.changeCategory(category);
+        existingTask.setTags(tags);
+        existingTask.setDueDate(taskRequest.dueDate());
+
+        if (taskRequest.location() != null) {
+            Location location = new Location(
+                    taskRequest.location().latitude(),
+                    taskRequest.location().longitude(),
+                    taskRequest.location().locationName(),
+                    taskRequest.location().locationDescription());
+            existingTask.setLocation(location);
+        } else {
+            existingTask.setLocation(null);
+        }
+
+        Task updatedTask = taskRepository.save(existingTask);
+        return TaskMapper.toResponseDto(updatedTask);
     }
 }
