@@ -15,6 +15,7 @@ import com.codexasistemas.todoapp.api.service.interfaces.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,18 +25,17 @@ import java.util.stream.Collectors;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private final TaskRepository taskRepository;
-    private final UserService userService;
-    private final CategoryService categoryService;
-    private final TagService tagService;
-
-    public TaskServiceImpl(TaskRepository taskRepository, UserService userService,
-            CategoryService categoryService, TagService tagService) {
-        this.taskRepository = taskRepository;
-        this.userService = userService;
-        this.categoryService = categoryService;
-        this.tagService = tagService;
-    }
+    @Autowired
+    private TaskRepository taskRepository;
+    
+    @Autowired
+    private UserService userService;
+    
+    @Autowired
+    private CategoryService categoryService;
+    
+    @Autowired
+    private TagService tagService;
 
     @Override
     public List<TaskResponseDto> findAll() {
