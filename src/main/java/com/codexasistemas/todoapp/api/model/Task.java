@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +25,12 @@ public class Task {
 
     private boolean done = false;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "due_date")
+    private LocalDate dueDate;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -34,6 +42,11 @@ public class Task {
     @ManyToMany
     @JoinTable(name = "task_tag", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 
     public void markAsDone() {
         if (this.done)
@@ -60,6 +73,13 @@ public class Task {
 
     public void updateDescription(String newDescription) {
         this.description = (newDescription != null) ? newDescription.trim() : null;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        if (dueDate != null && dueDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("A data de vencimento não pode estar no passado.");
+        }
+        this.dueDate = dueDate;
     }
 
     public void assignUser(User user) {

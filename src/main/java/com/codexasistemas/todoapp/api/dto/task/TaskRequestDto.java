@@ -3,6 +3,7 @@ package com.codexasistemas.todoapp.api.dto.task;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record TaskRequestDto(
@@ -15,7 +16,9 @@ public record TaskRequestDto(
 
         @NotNull(message = "O ID da categoria é obrigatório.") Long categoryId,
 
-        List<Long> tagIds
+        List<Long> tagIds,
+
+        LocalDate dueDate
 
 ) {
 }

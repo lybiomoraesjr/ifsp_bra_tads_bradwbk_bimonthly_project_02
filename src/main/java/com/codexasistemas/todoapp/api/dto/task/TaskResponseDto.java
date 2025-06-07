@@ -1,5 +1,7 @@
 package com.codexasistemas.todoapp.api.dto.task;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record TaskResponseDto(
@@ -8,5 +10,7 @@ public record TaskResponseDto(
     String description,
     boolean done,
     String category,
-    List<String> tags
+    List<String> tags,
+    LocalDateTime createdAt,
+    LocalDate dueDate
 ) {}

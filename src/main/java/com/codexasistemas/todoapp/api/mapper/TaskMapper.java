@@ -14,7 +14,9 @@ public class TaskMapper {
             task.getDescription(),
             task.isDone(),
             task.getCategory() != null ? task.getCategory().getName() : null,
-            task.getTags() != null ? task.getTags().stream().map(Tag::getName).toList() : List.of()
+            task.getTags() != null ? task.getTags().stream().map(Tag::getName).toList() : List.of(),
+            task.getCreatedAt(),
+            task.getDueDate()
         );
     }
 
@@ -25,6 +27,7 @@ public class TaskMapper {
         task.assignUser(user);
         task.changeCategory(category);
         task.setTags(tags);
+        task.setDueDate(dto.dueDate());
         return task;
     }
 }
