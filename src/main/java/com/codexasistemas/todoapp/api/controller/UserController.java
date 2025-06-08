@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codexasistemas.todoapp.api.dto.user.UserRequestDto;
 import com.codexasistemas.todoapp.api.dto.user.UserResponseDto;
+import com.codexasistemas.todoapp.api.dto.category.CategoryWithTaskCountDto;
+import com.codexasistemas.todoapp.api.dto.tag.TagWithTaskCountDto;
 import com.codexasistemas.todoapp.api.service.impl.UserServiceImpl;
 
 @RestController
@@ -48,5 +50,15 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<UserResponseDto> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.deleteById(id));
+    }
+
+    @GetMapping("/{id}/categories")
+    public ResponseEntity<List<CategoryWithTaskCountDto>> getUserCategories(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findCategoriesWithTaskCount(id));
+    }
+
+    @GetMapping("/{id}/tags")
+    public ResponseEntity<List<TagWithTaskCountDto>> getUserTags(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findTagsWithTaskCount(id));
     }
 }

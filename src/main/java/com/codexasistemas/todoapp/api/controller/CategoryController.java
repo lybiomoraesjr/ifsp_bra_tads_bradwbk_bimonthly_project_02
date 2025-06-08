@@ -2,6 +2,7 @@ package com.codexasistemas.todoapp.api.controller;
 
 import com.codexasistemas.todoapp.api.dto.category.CategoryRequestDto;
 import com.codexasistemas.todoapp.api.dto.category.CategoryResponseDto;
+import com.codexasistemas.todoapp.api.dto.task.TaskResponseDto;
 import com.codexasistemas.todoapp.api.service.interfaces.CategoryService;
 
 import jakarta.validation.Valid;
@@ -49,5 +50,10 @@ public class CategoryController {
             @Valid @RequestBody CategoryRequestDto categoryRequest) {
         CategoryResponseDto updatedCategory = categoryService.update(id, categoryRequest);
         return ResponseEntity.ok(updatedCategory);
+    }
+
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<List<TaskResponseDto>> getTasksByCategory(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.findTasksByCategory(id));
     }
 } 

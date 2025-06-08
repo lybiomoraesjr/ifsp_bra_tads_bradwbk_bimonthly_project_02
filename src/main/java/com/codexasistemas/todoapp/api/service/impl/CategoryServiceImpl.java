@@ -2,7 +2,9 @@ package com.codexasistemas.todoapp.api.service.impl;
 
 import com.codexasistemas.todoapp.api.dto.category.CategoryRequestDto;
 import com.codexasistemas.todoapp.api.dto.category.CategoryResponseDto;
+import com.codexasistemas.todoapp.api.dto.task.TaskResponseDto;
 import com.codexasistemas.todoapp.api.mapper.CategoryMapper;
+import com.codexasistemas.todoapp.api.mapper.TaskMapper;
 import com.codexasistemas.todoapp.api.model.Category;
 import com.codexasistemas.todoapp.api.model.User;
 import com.codexasistemas.todoapp.api.repository.interfaces.CategoryRepository;
@@ -73,5 +75,13 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category updatedCategory = categoryRepository.save(existingCategory);
         return CategoryMapper.toResponseDto(updatedCategory);
+    }
+
+    @Override
+    public List<TaskResponseDto> findTasksByCategory(Long categoryId) {
+        Category category = findByIdEntity(categoryId);
+        return category.getTasks().stream()
+            .map(TaskMapper::toResponseDto)
+            .collect(Collectors.toList());
     }
 } 

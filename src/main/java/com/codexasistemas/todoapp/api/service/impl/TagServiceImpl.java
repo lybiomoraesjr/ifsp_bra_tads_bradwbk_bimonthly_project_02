@@ -4,8 +4,10 @@ import com.codexasistemas.todoapp.api.dto.tag.TagRequestDto;
 import com.codexasistemas.todoapp.api.dto.tag.TagResponseDto;
 import com.codexasistemas.todoapp.api.mapper.TagMapper;
 import com.codexasistemas.todoapp.api.model.Tag;
+import com.codexasistemas.todoapp.api.model.User;
 import com.codexasistemas.todoapp.api.repository.interfaces.TagRepository;
 import com.codexasistemas.todoapp.api.service.interfaces.TagService;
+import com.codexasistemas.todoapp.api.service.interfaces.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class TagServiceImpl implements TagService {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<TagResponseDto> findAll() {
@@ -36,7 +41,8 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagResponseDto create(TagRequestDto tagRequest) {
-        Tag tag = TagMapper.toEntity(tagRequest);
+        User user = userService.findByIdEntity(tagRequest.userId());
+        Tag tag = TagMapper.toEntity(tagRequest, user);
         Tag savedTag = tagRepository.save(tag);
         return TagMapper.toResponseDto(savedTag);
     }
@@ -61,7 +67,9 @@ public class TagServiceImpl implements TagService {
         Tag existingTag = tagRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Tag não encontrada: " + id));
 
+        User user = userService.findByIdEntity(tagRequest.userId());
         existingTag.setName(tagRequest.name());
+        existingTag.setUser(user);
         Tag updatedTag = tagRepository.save(existingTag);
         return TagMapper.toResponseDto(updatedTag);
     }
