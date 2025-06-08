@@ -16,16 +16,16 @@ public record UserRequestDto(
 ) {
     public UserRequestDto {
         if (id != null && id <= 0) {
-            throw new IllegalArgumentException("ID must be a positive number");
+            throw new IllegalArgumentException("O ID deve ser um número positivo.");
         }
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Name cannot be null or blank");
+            throw new IllegalArgumentException("O nome não pode ser nulo ou vazio.");
         }
         if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("Email cannot be null or blank");
+            throw new IllegalArgumentException("O email não pode ser nulo ou vazio.");
         }
         if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Password cannot be null or blank");
+            throw new IllegalArgumentException("A senha não pode ser nula ou vazia.");
         }
     }
 

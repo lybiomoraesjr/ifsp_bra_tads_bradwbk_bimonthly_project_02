@@ -53,7 +53,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag findByIdEntity(Long id) {
         return tagRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Tag not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Tag não encontrada: " + id));
     }
 
     @Override

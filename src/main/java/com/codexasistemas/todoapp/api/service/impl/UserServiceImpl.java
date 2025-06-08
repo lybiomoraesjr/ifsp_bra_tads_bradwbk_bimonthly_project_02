@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDto> findAll() {
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
-            throw new RuntimeException("No users found");
+            throw new RuntimeException("Nenhum usuário encontrado.");
         }
         return users.stream()
                 .map(UserMapper::toResponseDto)
@@ -32,20 +32,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto findById(Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("ID must be a positive number");
+            throw new IllegalArgumentException("O ID deve ser um número positivo.");
         }
         if (!userRepository.existsById(id)) {
-            throw new IllegalArgumentException("User not found");
+            throw new IllegalArgumentException("Usuário não encontrado.");
         }
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
         return UserMapper.toResponseDto(user);
     }
 
     @Override
     public UserResponseDto save(UserRequestDto userInfo) {
         if (userRepository.existsByEmail(userInfo.email())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email já existe.");
         }
         User user = UserMapper.toEntity(userInfo);
         User savedUser = userRepository.save(user);
@@ -55,14 +55,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto update(UserRequestDto userInfo) {
         if (userInfo.id() == null) {
-            throw new IllegalArgumentException("ID must not be null for update");
+            throw new IllegalArgumentException("O ID não pode ser nulo para atualização.");
         }
         User user = userRepository.findById(userInfo.id())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
         
         if (!user.getEmail().equals(userInfo.email()) && 
             userRepository.existsByEmail(userInfo.email())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email já existe.");
         }
 
         user = UserMapper.toEntity(userInfo);
@@ -73,10 +73,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto deleteById(Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("ID must be a positive number");
+            throw new IllegalArgumentException("O ID deve ser um número positivo.");
         }
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
         
         UserResponseDto responseDto = UserMapper.toResponseDto(user);
         userRepository.deleteById(id);
@@ -86,9 +86,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByIdEntity(Long id) {
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("ID must be a positive number");
+            throw new IllegalArgumentException("O ID deve ser um número positivo.");
         }
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
     }
 }
