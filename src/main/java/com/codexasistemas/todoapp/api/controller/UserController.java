@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codexasistemas.todoapp.api.dto.user.UserGetResponseDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPostRequestDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPostResponseDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPutRequestDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPutResponseDto;
+import com.codexasistemas.todoapp.api.dto.user.UserRequestDto;
+import com.codexasistemas.todoapp.api.dto.user.UserResponseDto;
 import com.codexasistemas.todoapp.api.service.impl.UserServiceImpl;
 
 @RestController
@@ -28,29 +25,28 @@ public class UserController {
     private UserServiceImpl userService;
 
     @GetMapping
-    public ResponseEntity<List<UserGetResponseDto>> findAll() {
+    public ResponseEntity<List<UserResponseDto>> findAll() {
         return ResponseEntity.ok().body(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserGetResponseDto> findById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.findById(id));
     }
     
     @PostMapping
-    public ResponseEntity<UserPostResponseDto> save(@RequestBody UserPostRequestDto user) {
+    public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto user) {
         return ResponseEntity.ok().body(userService.save(user));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<UserPutResponseDto> update(@PathVariable Long id, @RequestBody UserPutRequestDto user) {
-        user = new UserPutRequestDto(id, user.name(), user.email(), user.password());
+    public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserRequestDto user) {
+        user = new UserRequestDto(id, user.name(), user.email(), user.password());
         return ResponseEntity.ok().body(userService.update(user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        return userService.deleteById(id);
+    public ResponseEntity<UserResponseDto> deleteById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(userService.deleteById(id));
     }
-
 }

@@ -3,14 +3,11 @@ package com.codexasistemas.todoapp.api.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.codexasistemas.todoapp.api.dto.user.UserGetResponseDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPostRequestDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPostResponseDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPutRequestDto;
-import com.codexasistemas.todoapp.api.dto.user.UserPutResponseDto;
+import com.codexasistemas.todoapp.api.dto.user.UserRequestDto;
+import com.codexasistemas.todoapp.api.dto.user.UserResponseDto;
+import com.codexasistemas.todoapp.api.mapper.UserMapper;
 import com.codexasistemas.todoapp.api.model.User;
 import com.codexasistemas.todoapp.api.repository.interfaces.UserRepository;
 import com.codexasistemas.todoapp.api.service.interfaces.UserService;
@@ -21,68 +18,69 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserGetResponseDto> findAll() {
+    @Override
+    public List<UserResponseDto> findAll() {
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
             throw new RuntimeException("No users found");
         }
         return users.stream()
-                .map(user -> new UserGetResponseDto(user.getId(), user.getName(), user.getEmail()))
+                .map(UserMapper::toResponseDto)
                 .toList();
     }
 
-    public UserGetResponseDto findById(Long id) {
+    @Override
+    public UserResponseDto findById(Long id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID must be a positive number");
         }
         if (!userRepository.existsById(id)) {
             throw new IllegalArgumentException("User not found");
         }
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return new UserGetResponseDto(user.getId(), user.getName(), user.getEmail());
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return UserMapper.toResponseDto(user);
     }
 
-    public UserPostResponseDto save(UserPostRequestDto userInfo) {
-        User user = new User();
-        user.setName(userInfo.name());
-        user.setEmail(userInfo.email());
-        user.setPassword(userInfo.password());
-        if (user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
-            throw new IllegalArgumentException("Name, email, and password must not be null");
-        }
-        if (user.getName().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
-            throw new IllegalArgumentException("Name, email, and password must not be empty");
-        }
-        if (userRepository.existsByEmail(user.getEmail())) {
+    @Override
+    public UserResponseDto save(UserRequestDto userInfo) {
+        if (userRepository.existsByEmail(userInfo.email())) {
             throw new IllegalArgumentException("Email already exists");
         }
-        userRepository.save(user);
-        return new UserPostResponseDto(user.getId(), user.getName(), user.getEmail());
+        User user = UserMapper.toEntity(userInfo);
+        User savedUser = userRepository.save(user);
+        return UserMapper.toResponseDto(savedUser);
     }
 
-    public UserPutResponseDto update(UserPutRequestDto userInfo) {
-        User user = userRepository.findById(userInfo.id()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        user.setName(userInfo.name());
-        user.setEmail(userInfo.email());
-        user.setPassword(userInfo.password());
-        userRepository.save(user);
-        return new UserPutResponseDto(user.getId(), user.getName(), user.getEmail());
+    @Override
+    public UserResponseDto update(UserRequestDto userInfo) {
+        if (userInfo.id() == null) {
+            throw new IllegalArgumentException("ID must not be null for update");
+        }
+        User user = userRepository.findById(userInfo.id())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        
+        if (!user.getEmail().equals(userInfo.email()) && 
+            userRepository.existsByEmail(userInfo.email())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        user = UserMapper.toEntity(userInfo);
+        User updatedUser = userRepository.save(user);
+        return UserMapper.toResponseDto(updatedUser);
     }
 
-    public ResponseEntity<?> deleteById(Long id) {
+    @Override
+    public UserResponseDto deleteById(Long id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID must be a positive number");
         }
-        if (!userRepository.existsById(id)) {
-            throw new IllegalArgumentException("User not found");
-        }
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         
-        if (!userRepository.existsById(id)) {
-            throw new IllegalArgumentException("User not found");
-        }
+        UserResponseDto responseDto = UserMapper.toResponseDto(user);
         userRepository.deleteById(id);
-        return ResponseEntity.ok().build();
-       
+        return responseDto;
     }
 
     @Override
