@@ -11,7 +11,7 @@ public class ApiApplication {
 
 	public static void main(String[] args) {
 
-		Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+		Dotenv.configure().ignoreIfMissing().load();
 
 		SpringApplication.run(ApiApplication.class, args);
 	}
