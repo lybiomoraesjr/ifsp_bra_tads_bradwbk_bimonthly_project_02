@@ -18,7 +18,7 @@ import com.codexasistemas.todoapp.api.dto.user.UserResponseDto;
 import com.codexasistemas.todoapp.api.service.impl.UserServiceImpl;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
