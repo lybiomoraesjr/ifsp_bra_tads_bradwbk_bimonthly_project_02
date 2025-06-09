@@ -11,6 +11,8 @@ import com.codexasistemas.todoapp.api.dto.user.UserRequestDto;
 import com.codexasistemas.todoapp.api.dto.user.UserResponseDto;
 import com.codexasistemas.todoapp.api.dto.category.CategoryWithTaskCountDto;
 import com.codexasistemas.todoapp.api.dto.tag.TagWithTaskCountDto;
+import com.codexasistemas.todoapp.api.dto.task.TaskResponseDto;
+import com.codexasistemas.todoapp.api.mapper.TaskMapper;
 import com.codexasistemas.todoapp.api.mapper.UserMapper;
 import com.codexasistemas.todoapp.api.model.User;
 import com.codexasistemas.todoapp.api.repository.interfaces.UserRepository;
@@ -128,6 +130,21 @@ public class UserServiceImpl implements UserService {
                     .distinct()
                     .collect(Collectors.toList())
             ))
+            .collect(Collectors.toList());
+    }
+
+    public List<TaskResponseDto> findTasksWithTaskCount(Long userId) {
+        User user = findByIdEntity(userId);
+        return user.getTasks().stream()
+            .map(TaskMapper::toResponseDto)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskResponseDto> findTasksWithContext(Long userId) {
+        User user = findByIdEntity(userId);
+        return user.getTasks().stream()
+            .map(TaskMapper::toResponseDto)
             .collect(Collectors.toList());
     }
 }
