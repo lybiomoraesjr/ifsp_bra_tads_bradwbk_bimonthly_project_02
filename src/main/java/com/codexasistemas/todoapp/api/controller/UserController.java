@@ -17,7 +17,9 @@ import com.codexasistemas.todoapp.api.dto.user.UserRequestDto;
 import com.codexasistemas.todoapp.api.dto.user.UserResponseDto;
 import com.codexasistemas.todoapp.api.dto.category.CategoryWithTaskCountDto;
 import com.codexasistemas.todoapp.api.dto.tag.TagWithTaskCountDto;
+import com.codexasistemas.todoapp.api.dto.task.TaskResponseDto;
 import com.codexasistemas.todoapp.api.service.impl.UserServiceImpl;
+import com.codexasistemas.todoapp.api.service.interfaces.TaskService;
 
 @RestController
 @RequestMapping("/api/users")
@@ -25,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private TaskService taskService;
 
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> findAll() {
@@ -60,5 +65,10 @@ public class UserController {
     @GetMapping("/{id}/tags")
     public ResponseEntity<List<TagWithTaskCountDto>> getUserTags(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findTagsWithTaskCount(id));
+    }
+
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<List<TaskResponseDto>> getUserTasks(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.findByUserId(id));
     }
 }

@@ -105,4 +105,11 @@ public class TaskServiceImpl implements TaskService {
         Task updatedTask = taskRepository.save(existingTask);
         return TaskMapper.toResponseDto(updatedTask);
     }
+
+    @Override
+    public List<TaskResponseDto> findByUserId(Long userId) {
+        return taskRepository.findByUserId(userId).stream()
+                .map(TaskMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
 }
