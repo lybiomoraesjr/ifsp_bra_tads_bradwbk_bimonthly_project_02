@@ -21,8 +21,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public List<CategoryResponseDto> findAll() {
-        return categoryService.findAll();
+    public List<CategoryResponseDto> findAll(@RequestParam(required = true) Long userId) {
+        return categoryService.findByUserId(userId);
     }
 
     @GetMapping("/{id}")

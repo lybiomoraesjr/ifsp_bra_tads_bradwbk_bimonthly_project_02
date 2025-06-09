@@ -84,4 +84,11 @@ public class CategoryServiceImpl implements CategoryService {
             .map(TaskMapper::toResponseDto)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<CategoryResponseDto> findByUserId(Long userId) {
+        return categoryRepository.findByUserId(userId).stream()
+                .map(CategoryMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
 } 

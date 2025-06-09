@@ -14,4 +14,5 @@ public interface TagService {
     TagResponseDto update(Long id, TagRequestDto tagRequest);
     TagResponseDto delete(Long id);
     Tag findByIdEntity(Long id);
+    List<TagResponseDto> findByUserId(Long userId);
 } 

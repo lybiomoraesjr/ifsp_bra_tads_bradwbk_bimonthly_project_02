@@ -14,4 +14,6 @@ public interface TagRepository {
     public List<Tag> findAll();
 
     public void deleteById(Long id);
+    
+    public List<Tag> findByUserId(Long userId);
 } 

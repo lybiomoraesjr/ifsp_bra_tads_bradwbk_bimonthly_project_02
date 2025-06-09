@@ -13,4 +13,6 @@ public interface CategoryRepository {
     public List<Category> findAll();
 
     public void deleteById(Long id);
+
+    public List<Category> findByUserId(Long userId);
 } 

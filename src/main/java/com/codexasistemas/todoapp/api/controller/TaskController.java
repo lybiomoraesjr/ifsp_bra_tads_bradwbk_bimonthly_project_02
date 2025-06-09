@@ -21,8 +21,8 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
-    public List<TaskResponseDto> findAll() {
-        return taskService.findAll();
+    public List<TaskResponseDto> findAll(@RequestParam(required = true) Long userId) {
+        return taskService.findByUserId(userId);
     }
 
     @GetMapping("/{id}")

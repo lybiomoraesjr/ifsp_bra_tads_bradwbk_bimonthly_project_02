@@ -17,4 +17,5 @@ public interface CategoryService {
     Category findByIdEntity(Long id);
     
     List<TaskResponseDto> findTasksByCategory(Long categoryId);
+    List<CategoryResponseDto> findByUserId(Long userId);
 } 

@@ -38,4 +38,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         jpa.deleteById(id);
     }
 
+    @Override
+    public List<Category> findByUserId(Long userId) {
+        return jpa.findByUserId(userId);
+    }
+
 }

@@ -20,8 +20,8 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping
-    public List<TagResponseDto> findAll() {
-        return tagService.findAll();
+    public List<TagResponseDto> findAll(@RequestParam(required = true) Long userId) {
+        return tagService.findByUserId(userId);
     }
 
     @GetMapping("/{id}")

@@ -73,4 +73,11 @@ public class TagServiceImpl implements TagService {
         Tag updatedTag = tagRepository.save(existingTag);
         return TagMapper.toResponseDto(updatedTag);
     }
+
+    @Override
+    public List<TagResponseDto> findByUserId(Long userId) {
+        return tagRepository.findByUserId(userId).stream()
+                .map(TagMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
 } 
