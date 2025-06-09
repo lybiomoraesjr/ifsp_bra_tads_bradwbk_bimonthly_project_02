@@ -18,4 +18,6 @@ public interface TaskService {
     TaskResponseDto delete(Long id);
 
     List<TaskResponseDto> findByUserId(Long userId);
+    
+    TaskResponseDto toggleStatus(Long id);
 }

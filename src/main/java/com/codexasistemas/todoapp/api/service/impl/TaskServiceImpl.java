@@ -112,4 +112,14 @@ public class TaskServiceImpl implements TaskService {
                 .map(TaskMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public TaskResponseDto toggleStatus(Long id) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada: " + id));
+        
+        task.toggleStatus();
+        Task updatedTask = taskRepository.save(task);
+        return TaskMapper.toResponseDto(updatedTask);
+    }
 }

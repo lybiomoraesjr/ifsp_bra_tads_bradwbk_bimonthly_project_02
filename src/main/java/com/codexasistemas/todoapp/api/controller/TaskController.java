@@ -51,4 +51,10 @@ public class TaskController {
         TaskResponseDto updatedTask = taskService.update(id, taskRequest);
         return ResponseEntity.ok(updatedTask);
     }
+
+    @PatchMapping("/{id}/toggle")
+    public ResponseEntity<TaskResponseDto> toggleStatus(@PathVariable Long id) {
+        TaskResponseDto toggledTask = taskService.toggleStatus(id);
+        return ResponseEntity.ok(toggledTask);
+    }
 }
