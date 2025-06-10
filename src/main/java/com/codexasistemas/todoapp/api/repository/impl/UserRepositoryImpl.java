@@ -47,4 +47,9 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean existsById(Long id) {
         return jpa.existsById(id);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return jpa.findByEmail(email);
+    }
 }
