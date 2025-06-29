@@ -1,8 +1,8 @@
 package com.codexasistemas.todoapp.api.dto.auth;
 
-public record RegisterResponseDto(Long id, String name, String email) {
+public record LoginResponseDto(Long id, String name, String email) {
     
-    public RegisterResponseDto {
+    public LoginResponseDto {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("O ID deve ser um número positivo.");
         }
@@ -14,4 +14,4 @@ public record RegisterResponseDto(Long id, String name, String email) {
         }
     }
     
-}
+} 

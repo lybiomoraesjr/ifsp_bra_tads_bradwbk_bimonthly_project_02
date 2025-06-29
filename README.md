@@ -38,12 +38,28 @@ Gerenciamento de Tarefas (ToDo App)
 - Postman/JMeter/Thunder Client/Insomnia (testes funcionais)
 - Git
 
-## Endpoints da API (exemplo)
+## Endpoints da API
+
+### Autenticação
 
 | Verbo HTTP | Path                        | Body de Requisição | Body de Retorno         | Status Sucesso | Status Erro |
 |------------|----------------------------|--------------------|-------------------------|---------------|-------------|
-| POST       | /register                  | RegisterRequestDto | RegisterResponseDto     | 200           | 400/500     |
-| POST       | /login                     | LoginRequestDto    | Token/Response          | 200           | 401/400     |
+| POST       | /api/auth/register         | RegisterRequestDto | RegisterResponseDto     | 200           | 400/500     |
+| POST       | /api/auth/login            | LoginRequestDto    | LoginResponseDto        | 200           | 401/400     |
+
+**Exemplo de resposta de autenticação:**
+```json
+{
+  "id": 1,
+  "name": "Test User",
+  "email": "test@test.com"
+}
+```
+
+### Usuários
+
+| Verbo HTTP | Path                        | Body de Requisição | Body de Retorno         | Status Sucesso | Status Erro |
+|------------|----------------------------|--------------------|-------------------------|---------------|-------------|
 | GET        | /api/users                 | -                  | List<UserResponseDto>   | 200           | 404/500     |
 | GET        | /api/users/{id}            | -                  | UserResponseDto         | 200           | 404/500     |
 | POST       | /api/users                 | UserRequestDto     | UserResponseDto         | 200           | 400/500     |
@@ -52,18 +68,33 @@ Gerenciamento de Tarefas (ToDo App)
 | GET        | /api/users/{id}/categories | -                  | List<CategoryWithTaskCountDto> | 200   | 404/500     |
 | GET        | /api/users/{id}/tags       | -                  | List<TagWithTaskCountDto>      | 200   | 404/500     |
 | GET        | /api/users/{id}/tasks      | -                  | List<TaskResponseDto>         | 200   | 404/500     |
+
+### Tarefas
+
+| Verbo HTTP | Path                        | Body de Requisição | Body de Retorno         | Status Sucesso | Status Erro |
+|------------|----------------------------|--------------------|-------------------------|---------------|-------------|
 | GET        | /api/tasks?userId=         | -                  | List<TaskResponseDto>         | 200   | 404/500     |
 | GET        | /api/tasks/{id}            | -                  | TaskResponseDto               | 200   | 404/500     |
 | POST       | /api/tasks                 | TaskRequestDto     | TaskResponseDto               | 201   | 400/500     |
 | PUT        | /api/tasks/{id}            | TaskRequestDto     | TaskResponseDto               | 200   | 400/404     |
 | DELETE     | /api/tasks/{id}            | -                  | TaskResponseDto               | 200   | 404/500     |
 | PATCH      | /api/tasks/{id}/toggle     | -                  | TaskResponseDto               | 200   | 404/500     |
+
+### Categorias
+
+| Verbo HTTP | Path                        | Body de Requisição | Body de Retorno         | Status Sucesso | Status Erro |
+|------------|----------------------------|--------------------|-------------------------|---------------|-------------|
 | GET        | /api/categories?userId=    | -                  | List<CategoryResponseDto>      | 200   | 404/500     |
 | GET        | /api/categories/{id}       | -                  | CategoryResponseDto           | 200   | 404/500     |
 | POST       | /api/categories            | CategoryRequestDto | CategoryResponseDto           | 201   | 400/500     |
 | PUT        | /api/categories/{id}       | CategoryRequestDto | CategoryResponseDto           | 200   | 400/404     |
 | DELETE     | /api/categories/{id}       | -                  | CategoryResponseDto           | 200   | 404/500     |
 | GET        | /api/categories/{id}/tasks | -                  | List<TaskResponseDto>         | 200   | 404/500     |
+
+### Tags
+
+| Verbo HTTP | Path                        | Body de Requisição | Body de Retorno         | Status Sucesso | Status Erro |
+|------------|----------------------------|--------------------|-------------------------|---------------|-------------|
 | GET        | /api/tags?userId=          | -                  | List<TagResponseDto>          | 200   | 404/500     |
 | GET        | /api/tags/{id}             | -                  | TagResponseDto                | 200   | 404/500     |
 | POST       | /api/tags                  | TagRequestDto      | TagResponseDto                | 201   | 400/500     |

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codexasistemas.todoapp.api.dto.auth.LoginRequestDto;
+import com.codexasistemas.todoapp.api.dto.auth.LoginResponseDto;
 import com.codexasistemas.todoapp.api.dto.auth.RegisterRequestDto;
 import com.codexasistemas.todoapp.api.dto.auth.RegisterResponseDto;
 import com.codexasistemas.todoapp.api.model.User;
@@ -17,7 +18,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
 
     @Override
-    public String login(LoginRequestDto loginRequest) {
+    public LoginResponseDto login(LoginRequestDto loginRequest) {
         User user = userRepository.findByEmail(loginRequest.email());
         if (user == null) {
             throw new IllegalArgumentException("Usuário não encontrado com o email: " + loginRequest.email());
@@ -27,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("Senha incorreta.");
         }
 
-        return "Usuário logado com sucesso.";
+        return new LoginResponseDto(user.getId(), user.getName(), user.getEmail());
     }
 
     @Override
@@ -39,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(registerRequest.password());
         user = userRepository.save(user);
 
-        return new RegisterResponseDto(user.getName(), user.getEmail());
+        return new RegisterResponseDto(user.getId(), user.getName(), user.getEmail());
     }
 
 }
