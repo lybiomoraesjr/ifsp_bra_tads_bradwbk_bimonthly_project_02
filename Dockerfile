@@ -5,7 +5,6 @@ COPY . .
 
 RUN mvn clean install -DskipTests
 
-# Etapa final: apenas o JAR
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
